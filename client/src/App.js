@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
@@ -9,8 +10,10 @@ import UserManagement from './components/UserManagement';
 import SystemConfig from './components/SystemConfig';
 import Alerts from './components/Alerts';
 import AddDeviceModal from './components/AddDeviceModal';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 
-function App() {
+function DashboardLayout({ onLogout }) {
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showAddDeviceModal, setShowAddDeviceModal] = useState(false);
@@ -61,6 +64,7 @@ function App() {
         <TopBar 
           onToggleSidebar={toggleSidebar}
           onAddDevice={openAddDeviceModal}
+          onLogout={onLogout}
         />
         <div className="content">
           {renderPage()}
@@ -70,6 +74,24 @@ function App() {
         <AddDeviceModal onClose={closeAddDeviceModal} />
       )}
     </div>
+  );
+}
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => setIsLoggedIn(true);
+  const handleLogout = () => setIsLoggedIn(false);
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" /> : <LoginForm onLogin={handleLogin} />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/dashboard" element={isLoggedIn ? <DashboardLayout onLogout={handleLogout} /> : <Navigate to="/" />} />
+        <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/"} />} />
+      </Routes>
+    </Router>
   );
 }
 

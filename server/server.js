@@ -16,8 +16,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3001",
-    methods: ["GET", "POST"]
+    origin: '*',
+    credentials: true
   }
 });
 
@@ -35,7 +35,7 @@ const authMiddleware = require('./middleware/auth');
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+  origin: '*',
   credentials: true
 }));
 app.use(morgan('combined'));
