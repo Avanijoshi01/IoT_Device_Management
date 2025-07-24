@@ -12,6 +12,7 @@ import Alerts from './components/Alerts';
 import AddDeviceModal from './components/AddDeviceModal';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import DeviceList from './components/DeviceList';
 
 function DashboardLayout({ onLogout }) {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -39,7 +40,7 @@ function DashboardLayout({ onLogout }) {
       case 'dashboard':
         return <Dashboard />;
       case 'devices':
-        return <DeviceMonitor />;
+        return <DeviceList />;
       case 'analytics':
         return <Analytics />;
       case 'users':

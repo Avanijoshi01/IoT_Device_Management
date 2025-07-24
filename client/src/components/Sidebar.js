@@ -32,6 +32,9 @@ const Sidebar = ({ currentPage, onPageChange, collapsed }) => {
             </a>
           </li>
         ))}
+        <li className={currentPage === 'devices' ? 'active' : ''} onClick={() => onPageChange('devices')}>
+          <i className="fas fa-microchip"></i> Devices
+        </li>
       </ul>
     </div>
   );
